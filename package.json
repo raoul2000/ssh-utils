@@ -1,22 +1,30 @@
 {
-  "name": "ssh-utils",
-  "version": "1.0.0",
-  "description": "SSH utilities, promise based, simple to use",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha ./test"
-  },
-  "keywords": [
-    "ssh",
-    "promise"
-  ],
-  "author": "raoul2000 <raoul.boulard@gmail.com>",
-  "license": "ISC",
-  "dependencies": {
-    "q": "^1.4.1",
-    "ssh2": "^0.5.2"
-  },
-  "devDependencies": {
-    "chai": "^3.5.0"
-  }
+    "name": "ssh-utils",
+    "version": "1.0.0",
+    "description": "SSH utilities, promise based, simple to use",
+    "homepage": "https://github.com/raoul2000/ssh-utils",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha ./test"
+    },
+    "keywords": [
+        "ssh",
+        "promise"
+    ],
+    "author": "raoul2000 <raoul.boulard@gmail.com>",
+    "license": "ISC",
+    "dependencies": {
+        "q": "^1.4.1",
+        "ssh2": "^0.5.2"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0"
+    },
+    "bugs": {
+        "url": "https://github.com/raoul2000/ssh-utils/issues"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git://github.com/raoul2000/ssh-utils.git"
+    }
 }
