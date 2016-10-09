@@ -17,7 +17,6 @@ describe('SSH Exec',function(done){
 
 		return sshExec.command(connection,"whoami")
 		.then(function(result){
-			//console.log(result);
 			assert.isTrue(result.success);
 			assert.isNull(result.error);
 			assert.isTrue( result.command === "whoami");
@@ -36,7 +35,6 @@ describe('SSH Exec',function(done){
 			return output.toUpperCase().trim();
 		})
 		.then(function(result){
-			//console.log(result);
 			assert.propertyVal(result, 'value', connection.user.toUpperCase());
 			done();
 		})
@@ -49,9 +47,7 @@ describe('SSH Exec',function(done){
 
 		return sshExec.command(connection,"BADCMD")
 		.then(function(result){
-			//console.log(result);
 			assert.isTrue(false);
-			//assert.fail(0, 1, 'Exception not thrown');
 			done();
 		})
 		.done(null,function(result){
@@ -61,7 +57,6 @@ describe('SSH Exec',function(done){
 			assert.isFalse(result.success);
 			assert.isNotNull(result.error);
 			assert.isTrue( result.command === "BADCMD");
-			assert.deepPropertyVal(result, 'error.stderr', "bash: BADCMD: command not found\n");
 			assert.deepPropertyVal(result, 'error.code', 127);
 			done();
 		});

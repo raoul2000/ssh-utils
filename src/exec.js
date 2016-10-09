@@ -4,13 +4,14 @@ var SSHClient = require('ssh2').Client,
 		Q         = require('q');
 /**
  * Run a single SSH command and returns the result.
- * When fullfilled the promise result is an object with the following structure :
- * {
- * 	"command" : "SSH command that was ran",
- * 	"success" : True or False,
- * 	"error"   : when "success" is True this property is NULL, otherwise it contains an object describing the error,
- * 	"value"   : when "success" is True contains the value returned by the command, otherwise NULL
- * }
+ * When fullfilled the promise result is an object with the following properties :
+ *
+ * - command : (string) SSH command that was executed
+ * - success : (boolean) command execution status
+ * - error   : (null|object) when "success" is True this property is NULL, otherwise
+ * it contains an object describing the error
+ * - value   : (string|null) when "success" is True contains the value returned by
+ * the command, otherwise NULL
  *
  * @param  {object} cnxParams SSH connection settings
  * @param  {string} cmd       the command to execute

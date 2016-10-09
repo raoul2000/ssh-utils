@@ -13,8 +13,6 @@ describe('SSH Load File config',function(done){
 
 		return readFileContent(connection,"/etc/hosts")
 		.then(function(result){
-			//console.log(result);
-
 			assert.deepPropertyVal(result, 'filepath',"/etc/hosts");
 			assert.deepPropertyVal(result, 'content.success',true);
 			assert.isTrue(result.content.value.length != 0);
@@ -29,12 +27,9 @@ describe('SSH Load File config',function(done){
 
 		return readFileContent(connection,"NOT_FOUND")
 		.then(function(result){
-			//console.log(result);
-
 		  assert.deepPropertyVal(result, 'filepath','NOT_FOUND');
 			assert.deepPropertyVal(result, 'content.success',false);
 			assert.deepPropertyVal(result, 'content.value',null);
-
 			done();
 		})
 		.fail(function(err){
