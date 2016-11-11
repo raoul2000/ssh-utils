@@ -1,6 +1,6 @@
 {
   "name": "ssh-utils",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "SSH utilities, promise based, simple to use",
   "homepage": "https://github.com/raoul2000/ssh-utils",
   "main": "index.js",

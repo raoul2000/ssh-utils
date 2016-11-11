@@ -1,4 +1,4 @@
 module.exports = {
-    exec      : require('./src/exec'),
-    readFile  : require('./src/read-file')
+    exec            : require('./src/exec'),
+    readFileContent : require('./src/read-file').readFileContent
 };

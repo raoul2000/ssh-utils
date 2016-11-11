@@ -3,30 +3,47 @@
 var Q             = require('q'),
     sshExec       = require("./exec");
 
-function readFileContent(conn,  filepath , whenDone){
+/**
+ * Reads thee content of a remote file.
+ * Invokes **cat filepath** and returns the result of the command
+ * execution as provided by the **sshExec.command** function.
+ *
+ * @param  {object} conn     hash for connection settings
+ * @param  {string} filepath path of the file to read
+ * @return {object}          Promisyfied result
+ */
+function readFileContent(conn,  filepath ){
 
-  var finalResult = {
-    "filepath"  : filepath,
-    "content"   : null
+  var validateInputArg = function() {
+    if(filepath === null ||filepath.length ===0) {
+      throw new Error("a filepath value is required");
+    } else {
+      return true;
+    }
   };
 
-  return sshExec.command(conn,'cat '+filepath)
-  .then(
-    function(result){
-      finalResult.content = result;
-      if( typeof whenDone === 'function' ) {
-        whenDone(finalResult.content);
-      }
-      return finalResult;
-    },
-    function(err){
-      finalResult.content = err;
-      if( typeof whenDone === 'function' ) {
-        whenDone(err);
-      }
-      return finalResult;
-    }
-  );
+  var readRemoteFileContent = function() {
+    // the success handler
+    var successHandler = function(result) {
+      return result;
+    };
+
+    // the error handler
+    var errorHandler = function(err) {
+      return err;
+    };
+
+    return sshExec.command(conn,'cat '+filepath)
+    .then(
+      successHandler,
+      errorHandler
+    );
+  };
+
+  // main entry point
+  return Q.fcall(validateInputArg)
+  .then(readRemoteFileContent);
+
 }
 
 exports.readFileContent = readFileContent;

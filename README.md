@@ -14,7 +14,7 @@ npm install ssh-utils
 "use strict";
 
 var execCmd = require('ssh-utils').exec.command;
-var catFile = require('ssh-utils').readFile.readFileContent;
+var catFile = require('ssh-utils').readFileContent;
 
 var cnx = {
     "host": "127.0.0.1",

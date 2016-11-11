@@ -13,9 +13,8 @@ describe('SSH Load File config',function(done){
 
 		return readFileContent(connection,"/etc/hosts")
 		.then(function(result){
-			assert.deepPropertyVal(result, 'filepath',"/etc/hosts");
-			assert.deepPropertyVal(result, 'content.success',true);
-			assert.isTrue(result.content.value.length != 0);
+			assert.deepPropertyVal(result, 'success',true);
+			assert.isTrue(result.value.length != 0);
 
 			done();
 		}).done(null,function(err){
@@ -27,13 +26,28 @@ describe('SSH Load File config',function(done){
 
 		return readFileContent(connection,"NOT_FOUND")
 		.then(function(result){
-		  assert.deepPropertyVal(result, 'filepath','NOT_FOUND');
-			assert.deepPropertyVal(result, 'content.success',false);
-			assert.deepPropertyVal(result, 'content.value',null);
+			assert.deepPropertyVal(result, 'success',false);
+			assert.deepPropertyVal(result, 'value',null);
 			done();
 		})
 		.fail(function(err){
 			done(err);
+		})
+		.done(null,function(err){
+			done(err);
+		});
+	});
+
+	it('returns error when no filepath is provided',function(done){
+
+		return readFileContent(connection,"sss")
+		.then(function(result){
+			assert.deepPropertyVal(result, 'success',false);
+			assert.deepPropertyVal(result, 'value',null);
+			done(new Error("promise should have been rejected"));
+		})
+		.fail(function(err){
+			done();
 		})
 		.done(null,function(err){
 			done(err);
