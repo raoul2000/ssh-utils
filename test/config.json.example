@@ -1,7 +1,7 @@
 {
   "sshConnection" : {
     "host": "127.0.0.1",
-    "user": "bobMarley",
-    "pass" : "redemption"
+    "username": "bobMarley",
+    "password" : "redemption"
   }
 }

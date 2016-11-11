@@ -24,7 +24,7 @@ describe('SSH Exec commands sequence',function(done){
 					command: 'whoami',
     			success: true,
     			error: null,
-    			value: connection.user + '\n'
+    			value: connection.username + '\n'
 				}
 			);
 			var lsValue = result[1].value;
@@ -55,7 +55,7 @@ describe('SSH Exec commands sequence',function(done){
 					command: 'whoami',
     			success: true,
     			error: null,
-    			value: connection.user + '\n'
+    			value: connection.username + '\n'
 				}
 			);
 			assert.isTrue(result[1].command === 'BADCMD');
@@ -78,7 +78,7 @@ describe('SSH Exec commands sequence',function(done){
 		.then(function(results){
 			assert.isArray(results);
 			assert.lengthOf(results,3);
-			assert.propertyVal(results[0], 'value', connection.user.toUpperCase());
+			assert.propertyVal(results[0], 'value', connection.username.toUpperCase());
 			assert.propertyVal(results[1], 'command', 'date');
 			assert.propertyVal(results[1], 'success', true);
 

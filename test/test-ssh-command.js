@@ -20,7 +20,7 @@ describe('SSH Exec',function(done){
 			assert.isTrue(result.success);
 			assert.isNull(result.error);
 			assert.isTrue( result.command === "whoami");
-			assert.propertyVal(result, 'value', connection.user + "\n");
+			assert.propertyVal(result, 'value', connection.username + "\n");
 			done();
 		})
 		.done(null,function(err){
@@ -35,7 +35,7 @@ describe('SSH Exec',function(done){
 			return output.toUpperCase().trim();
 		})
 		.then(function(result){
-			assert.propertyVal(result, 'value', connection.user.toUpperCase());
+			assert.propertyVal(result, 'value', connection.username.toUpperCase());
 			done();
 		})
 		.done(null,function(err){
@@ -61,4 +61,39 @@ describe('SSH Exec',function(done){
 			done();
 		});
 	});
+
+
+	it('throws exception if connection settings are missing',function(done){
+
+		try {
+			return sshExec.command(null,"ls")
+			.then(function(result){
+				done(new Error("promise rejection is expected"));
+			})
+			.fail(function(err){
+				done();
+			});
+		} catch (e) {
+			done();
+		}
+	});
+/*
+	it('throws exception if connection settings are incorrect',function(done){
+		var wrongConnection = {
+	    "host": connection.host,
+	    "username": "INVALID",
+	    "password" : connection.password,
+			"readyTimeout" : 1000
+	  };
+		try {
+			return sshExec.command(wrongConnection,"ls")
+			.then(function(result){
+				done(new Error("promise rejection is expected"));
+			});
+			done(new Error);
+		} catch (e) {
+			done();
+		}
+	});
+	*/
 });

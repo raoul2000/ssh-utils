@@ -40,7 +40,7 @@ describe('SSH Load File config',function(done){
 
 	it('returns error when no filepath is provided',function(done){
 
-		return readFileContent(connection,"sss")
+		return readFileContent(connection,"")
 		.then(function(result){
 			assert.deepPropertyVal(result, 'success',false);
 			assert.deepPropertyVal(result, 'value',null);

@@ -18,8 +18,8 @@ var catFile = require('ssh-utils').readFileContent;
 
 var cnx = {
     "host": "127.0.0.1",
-    "user": "bobMarley",
-    "pass": "ja"
+    "username": "bobMarley",
+    "password": "ja"
 };
 
 execCmd(cnx, 'ls -l')
