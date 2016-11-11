@@ -15,26 +15,22 @@ var SSHClient = require('ssh2').Client,
  *
  * @param  {object} cnxParams SSH connection settings
  * @param  {string} cmd       the command to execute
- * @param  {function} fnOutput  optional function to process command output
+ * @param  {function} fnOutput  optional function to process command output on success
  * @return {Promise}           Promisyfied result
  */
 function sshExecSingleCommand(cnxParams, cmd, fnOutput){
 
-  var ssh2connection = {
-    host    : cnxParams.host,
-    port    : cnxParams.port,
-    username: cnxParams.user,
-    password: cnxParams.pass
-  };
   var result = {
     "command" : cmd,
     "success" : true,
     "error"   : null,
     "value"   : null
   };
-  var sshClient = new SSHClient();
   return Q.promise(function(resolve, reject) {
-    sshClient.on('ready', function() {
+		var sshClient = new SSHClient();
+
+    sshClient
+		.on('ready', function() { // sshClient Ready
       var stdout = "";
       var stderr = "";
 
@@ -62,12 +58,12 @@ function sshExecSingleCommand(cnxParams, cmd, fnOutput){
         });
       });
     })
-    .on('error',function(error){
+    .on('error',function(error){ // sshClient Error
       result.success = false;
       result.error = error;
       reject(result);
     })
-    .connect(ssh2connection);
+    .connect(cnxParams); // sshClient Connect
   });
 }
 exports.command = sshExecSingleCommand;
@@ -75,10 +71,11 @@ exports.command = sshExecSingleCommand;
 
 /**
  * Execute a list of commands in parallel and returns a Promise for all results.
+ * This function is a wrapper around *Q.allSettled* API.
  *
- * @param  {object} connection SSH connection parameters
- * @param  {array} commands   array of SSH commands to execute
- * @param  {function} fnOutput   optional function applied to commands output
+ * @param  {object} connection 	SSH connection parameters
+ * @param  {array} commands   	array of SSH commands to execute
+ * @param  {function} fnOutput  optional function applied to commands output
  * @return {Promise}            Fullfilled as an array of results
  */
 function sshCommandParallel(connection, commands, fnOutput) {
@@ -131,7 +128,9 @@ function sshCommandSequence(connection, commands, fnOutput) {
   // just to start the chain.
   var result = Q(true);
   commands.map(function(command){
-    return function() { return sshExecSingleCommand(connection, command, fnOutput); };
+    return function() {
+			return sshExecSingleCommand(connection, command, fnOutput);
+		};
   }).forEach(function (f) {
     result = result.then(
       successHandler(f),
@@ -141,7 +140,7 @@ function sshCommandSequence(connection, commands, fnOutput) {
 
   // As the last result is not handled in the forEach loop, we must handle it now
   return result.then(
-      function(finalResult){
+  	function(finalResult){
       allResults.push(finalResult);
       return allResults;
     },
@@ -150,4 +149,5 @@ function sshCommandSequence(connection, commands, fnOutput) {
       return allResults;
   });
 }
+
 exports.commandSequence = sshCommandSequence;
