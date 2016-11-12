@@ -26,12 +26,12 @@ describe('SSH Load File config',function(done){
 
 		return readFileContent(connection,"NOT_FOUND")
 		.then(function(result){
-			assert.deepPropertyVal(result, 'success',false);
-			assert.deepPropertyVal(result, 'value',null);
-			done();
+			done(new Error('exception expected'));
 		})
 		.fail(function(err){
-			done(err);
+			assert.deepPropertyVal(err, 'success',false);
+			assert.deepPropertyVal(err, 'value',null);
+			done();
 		})
 		.done(null,function(err){
 			done(err);
@@ -42,11 +42,11 @@ describe('SSH Load File config',function(done){
 
 		return readFileContent(connection,"")
 		.then(function(result){
-			assert.deepPropertyVal(result, 'success',false);
-			assert.deepPropertyVal(result, 'value',null);
 			done(new Error("promise should have been rejected"));
 		})
 		.fail(function(err){
+			assert.deepPropertyVal(err, 'success',false);
+			assert.deepPropertyVal(err, 'value',null);
 			done();
 		})
 		.done(null,function(err){

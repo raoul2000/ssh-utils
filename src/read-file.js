@@ -16,7 +16,11 @@ function readFileContent(conn,  filepath ){
 
   var validateInputArg = function() {
     if(filepath === null ||filepath.length ===0) {
-      throw new Error("a filepath value is required");
+      throw {
+        "success" : false,
+        "value" : null,
+        "error" : new Error("a filepath value is required")
+      };
     } else {
       return true;
     }
@@ -30,7 +34,7 @@ function readFileContent(conn,  filepath ){
 
     // the error handler
     var errorHandler = function(err) {
-      return err;
+      throw err;
     };
 
     return sshExec.command(conn,'cat '+filepath)
